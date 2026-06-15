@@ -100,9 +100,10 @@ class RegisterViewModel extends ChangeNotifier {
       if (data["success"] == true) {
 
         idUsuario =
-            int.parse(
-              data["id_usuario"].toString(),
-            );
+          int.tryParse(
+            data["id_usuario"]
+              ?.toString() ?? "0",
+            ) ?? 0;
 
         return true;
 

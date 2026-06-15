@@ -528,4 +528,45 @@ class MapViewModel extends ChangeNotifier {
   }
 }
 
+// ================= ELIMINAR CUENTA =================
+
+ Future<bool> eliminarCuenta(
+  int idUsuario,
+) async {
+
+  try {
+
+    final response =
+        await http.post(
+
+      Uri.parse(
+        "$baseUrl/eliminar_pasajero.php",
+      ),
+
+      headers: {
+        "Content-Type":
+            "application/json",
+      },
+
+      body: jsonEncode({
+
+        "id": idUsuario,
+      }),
+    );
+
+    final data =
+        jsonDecode(response.body);
+
+    return data["success"] == true;
+
+  } catch (e) {
+
+    print(
+      "Error eliminando cuenta: $e",
+    );
+
+    return false;
+  }
+}
+
 }

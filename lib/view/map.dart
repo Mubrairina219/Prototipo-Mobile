@@ -6,6 +6,8 @@ import 'package:prototipo/view/loading.dart';
 import 'package:prototipo/viewmodel/loading_viewmodel.dart';
 import 'package:prototipo/viewmodel/map_viewmodel.dart';
 import 'package:prototipo/view/wearable/watch.dart';
+import 'package:prototipo/viewmodel/login_viewmodel.dart';
+import 'package:prototipo/main.dart';
 
 class MapScreen extends StatefulWidget {
 
@@ -66,6 +68,11 @@ class _MapScreenState extends State<MapScreen> {
   bool _mapaListo = false;
 
   String _planActual = "";
+
+  final LoginViewModel loginVM =
+    LoginViewModel();
+
+  bool aceptaEliminacion = false;
 
   // =====================================
   // INICIALIZACIÓN
@@ -383,6 +390,240 @@ if (ok) {
   );
 }
 
+void _confirmarEliminarCuenta() {
+
+  aceptaEliminacion = false;
+
+  showDialog(
+
+    context: context,
+
+    builder: (dialogContext) {
+
+      return StatefulBuilder(
+
+        builder: (
+          context,
+          setDialogState,
+        ) {
+
+          return AlertDialog(
+
+            shape: RoundedRectangleBorder(
+
+              borderRadius:
+                  BorderRadius.circular(15),
+            ),
+
+            title: const Row(
+
+              children: [
+
+                Icon(
+                  Icons.delete_forever,
+                  color: Colors.red,
+                ),
+
+                SizedBox(width: 10),
+
+                Text(
+                  "Eliminar cuenta",
+                ),
+              ],
+            ),
+
+            content: Column(
+
+              mainAxisSize:
+                  MainAxisSize.min,
+
+              children: [
+
+                const Icon(
+
+                  Icons.warning_amber_rounded,
+
+                  color: Colors.red,
+
+                  size: 60,
+                ),
+
+                const SizedBox(
+                  height: 15,
+                ),
+
+                const Text(
+
+                  "Esta acción eliminará permanentemente tu cuenta.",
+
+                  textAlign:
+                      TextAlign.center,
+
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight:
+                        FontWeight.bold,
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 10,
+                ),
+
+                const Text(
+
+                  "Todos tus datos serán eliminados y no podrán recuperarse.",
+
+                  textAlign:
+                      TextAlign.center,
+                ),
+
+                const SizedBox(
+                  height: 20,
+                ),
+
+                CheckboxListTile(
+
+                  value:
+                      aceptaEliminacion,
+
+                  contentPadding:
+                      EdgeInsets.zero,
+
+                  controlAffinity:
+                      ListTileControlAffinity
+                          .leading,
+
+                  title: const Text(
+
+                    "Entiendo que esta acción es irreversible.",
+
+                    style: TextStyle(
+                      fontSize: 13,
+                    ),
+                  ),
+
+                  onChanged: (value) {
+
+                    setDialogState(() {
+
+                      aceptaEliminacion =
+                          value ?? false;
+                    });
+                  },
+                ),
+              ],
+            ),
+
+            actions: [
+
+              TextButton(
+
+                onPressed: () {
+
+                  Navigator.pop(
+                    dialogContext,
+                  );
+                },
+
+                child: const Text(
+                  "Cancelar",
+                ),
+              ),
+
+              ElevatedButton.icon(
+
+                style:
+                    ElevatedButton.styleFrom(
+
+                  backgroundColor:
+                      Colors.red,
+
+                  foregroundColor:
+                      Colors.white,
+                ),
+
+                onPressed:
+                    aceptaEliminacion
+
+                        ? () async {
+
+                            final ok =
+                                await widget.viewModel
+                                    .eliminarCuenta(
+
+                              widget.idUsuario,
+                            );
+
+                            if (!mounted) {
+                              return;
+                            }
+
+                            Navigator.pop(
+                              dialogContext,
+                            );
+
+                            if (ok) {
+
+                              ScaffoldMessenger.of(
+                                      context)
+                                  .showSnackBar(
+
+                                const SnackBar(
+
+                                  content: Text(
+                                    "Cuenta eliminada correctamente",
+                                  ),
+                                ),
+                              );
+
+                              Navigator.pushAndRemoveUntil(
+
+                                context,
+
+                                MaterialPageRoute(
+
+                                  builder: (_) =>
+                                      const MyApp(),
+                                ),
+
+                                (route) => false,
+                              );
+
+                            } else {
+
+                              ScaffoldMessenger.of(
+                                      context)
+                                  .showSnackBar(
+
+                                const SnackBar(
+
+                                  content: Text(
+                                    "No se pudo eliminar la cuenta",
+                                  ),
+                                ),
+                              );
+                            }
+                          }
+
+                        : null,
+
+                icon: const Icon(
+                  Icons.delete,
+                ),
+
+                label: const Text(
+                  "Eliminar",
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    },
+  );
+}
+
   // =====================================
   // SIDEBAR DE PERFIL
   // =====================================
@@ -537,6 +778,32 @@ Padding(
               ),
   ),
 ),
+
+ListTile(
+
+  leading: const Icon(
+    Icons.delete_forever,
+    color: Colors.red,
+  ),
+
+  title: const Text(
+
+    "Eliminar cuenta",
+
+    style: TextStyle(
+      color: Colors.red,
+    ),
+  ),
+
+  onTap: () {
+
+    Navigator.pop(context);
+
+    _confirmarEliminarCuenta();
+  },
+),
+
+const Divider(),
 
             const Spacer(),
 

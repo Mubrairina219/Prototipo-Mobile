@@ -184,67 +184,6 @@ plan =
     }
   }
 
-  // ================= ELIMINAR CUENTA =================
-
-  Future<bool> eliminarCuenta(
-    String email,
-    String password,
-  ) async {
-
-    if (email.isEmpty) {
-
-      error =
-          "Ingrese el correo de la cuenta";
-
-      notifyListeners();
-
-      return false;
-    }
-
-    try {
-
-      final response =
-          await http.post(
-
-        Uri.parse(
-          "${API_URL}/eliminar_pasajero.php",
-        ),
-
-        headers: {
-          "Content-Type":
-              "application/json",
-        },
-
-        body: jsonEncode({
-          "email": email,
-          "password": password,
-        }),
-      );
-
-      final data =
-          jsonDecode(response.body);
-
-      if (data["success"] == true) {
-
-        return true;
-
-      } else {
-
-        error =
-            data["message"];
-
-        return false;
-      }
-
-    } catch (e) {
-
-      error =
-          "Error de conexión";
-
-      return false;
-    }
-  }
-
   Future<bool> actualizarPlan(
   int idUsuario,
   String plan,
