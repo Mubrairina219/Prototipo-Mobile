@@ -40,91 +40,119 @@ class _LoginScreenState
 
 
   void _mostrarRecuperarPassword() {
-
-    showDialog(
-      context: context,
-      builder: (_) {
-
-        return AlertDialog(
-
-          title: const Text(
-            "Recuperar contraseña",
-          ),
-
-          content: Column(
-            mainAxisSize:
-                MainAxisSize.min,
-            children: [
-
-              const Text(
-                "Se enviará una nueva contraseña al correo:",
-              ),
-
-              const SizedBox(
-                height: 10,
-              ),
-
-              Text(
-                _emailController.text.trim(),
-                style: const TextStyle(
-                  fontWeight:
-                      FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-
-          actions: [
-
-            TextButton(
-              onPressed: () {
-                Navigator.pop(
-                  context,
-                );
-              },
-              child: const Text(
-                "Cancelar",
-              ),
+  showDialog(
+    context: context,
+    builder: (_) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        title: Row(
+          children: const [
+            Icon(
+              Icons.lock_reset,
+              color: Colors.blueAccent,
             ),
-
-            ElevatedButton(
-              onPressed: () async {
-
-                final ok =
-                    await loginVM
-                        .recuperarPassword(
-                  _emailController.text
-                      .trim(),
-                );
-
-                if (!mounted) return;
-
-                Navigator.pop(
-                  context,
-                );
-
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      ok
-                          ? "Nueva contraseña enviada"
-                          : loginVM.error ??
-                              "Error",
-                    ),
-                  ),
-                );
-              },
-              child: const Text(
-                "Enviar",
+            SizedBox(width: 10),
+            Text(
+              "Recuperar contraseña",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
               ),
             ),
           ],
-        );
-      },
-    );
-  }
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                color: Colors.blue.shade50,
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Column(
+                children: [
+                  const Icon(
+                    Icons.email,
+                    size: 40,
+                    color: Colors.blueAccent,
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "Se enviará una nueva contraseña al correo:",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    _emailController.text.trim().isEmpty
+                        ? "Ingrese un correo electrónico"
+                        : _emailController.text.trim(),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        actionsPadding: const EdgeInsets.symmetric(
+          horizontal: 15,
+          vertical: 10,
+        ),
+        actions: [
+          TextButton.icon(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.close),
+            label: const Text("Cancelar"),
+          ),
+          ElevatedButton.icon(
+            icon: const Icon(Icons.send),
+            label: const Text("Enviar"),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blueAccent,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            onPressed: () async {
+              final ok =
+                  await loginVM.recuperarPassword(
+                _emailController.text.trim(),
+              );
+
+              if (!mounted) return;
+
+              Navigator.pop(context);
+
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor:
+                      ok ? Colors.green : Colors.red,
+                  content: Text(
+                    ok
+                        ? "Nueva contraseña enviada correctamente"
+                        : loginVM.error ?? "Error",
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
 
   Future<void> _iniciarSesion() async {
 
@@ -178,167 +206,181 @@ class _LoginScreenState
   }
 
   @override
-  Widget build(
-      BuildContext context) {
-
-      return Scaffold(
-
-        appBar: AppBar(
-          title: const Text(
-            'Iniciar Sesión',
-          ),
-          centerTitle: true,
-          backgroundColor: Colors.blueAccent,
-          foregroundColor:Colors.white,
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: Container(
+      width: double.infinity,
+      height: double.infinity,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Color(0xFF1565C0),
+            Color(0xFF42A5F5),
+          ],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
         ),
-
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-
-              SizedBox(
-                width: 300,
-                height: 200,
-                child: Image.asset(
-                  'assets/acceso.png',
-                ),
+      ),
+      child: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
+            child: Card(
+              elevation: 10,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25),
               ),
-
-              const SizedBox(
-                height: 20,
-              ),
-
-              SizedBox(
-                width: 300,
-                child: TextField(
-                  controller:
-                      _emailController,
-                  decoration:
-                      const InputDecoration(
-                    labelText:
-                        'Correo Electrónico',
-                    border:
-                        OutlineInputBorder(),
-                  ),
-                ),
-              ),
-
-              const SizedBox(
-                height: 20,
-              ),
-
-              SizedBox(
-                width: 300,
-                child: TextField(
-                  controller:
-                      _passwordController,
-                  obscureText:
-                      _obscurePassword,
-                  decoration:
-                      InputDecoration(
-                    labelText:
-                        'Contraseña',
-                    border:
-                        const OutlineInputBorder(),
-                    suffixIcon:
-                        IconButton(
-                      icon: Icon(
-                        _obscurePassword
-                            ? Icons
-                                .visibility
-                            : Icons
-                                .visibility_off,
+              child: Padding(
+                padding: const EdgeInsets.all(25),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      "Iniciar Sesión",
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueAccent,
                       ),
-                      onPressed:
-                          () {
-                        setState(() {
-                          _obscurePassword =
-                              !_obscurePassword;
-                        });
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    SizedBox(
+                      width: 220,
+                      height: 180,
+                      child: Image.asset(
+                        'assets/acceso.png',
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+
+                    const SizedBox(height: 25),
+
+                    TextField(
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                        labelText: 'Correo Electrónico',
+                        prefixIcon: const Icon(Icons.email),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    TextField(
+                      controller: _passwordController,
+                      obscureText: _obscurePassword,
+                      decoration: InputDecoration(
+                        labelText: 'Contraseña',
+                        prefixIcon: const Icon(Icons.lock),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscurePassword =
+                                  !_obscurePassword;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 15),
+
+                    AnimatedBuilder(
+                      animation: loginVM,
+                      builder: (context, _) {
+                        if (loginVM.error == null) {
+                          return const SizedBox();
+                        }
+
+                        return Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: Colors.red.shade50,
+                            borderRadius:
+                                BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            loginVM.error!,
+                            style: const TextStyle(
+                              color: Colors.red,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        );
                       },
                     ),
-                  ),
-                ),
-              ),
 
-              const SizedBox(
-                height: 15,
-              ),
+                    const SizedBox(height: 20),
 
-              AnimatedBuilder(
-                animation: loginVM,
-                builder:
-                    (context, _) {
-
-                  if (loginVM.error ==
-                      null) {
-
-                    return const SizedBox();
-                  }
-
-                  return Text(
-                    loginVM.error!,
-                    style:
-                        const TextStyle(
-                      color:
-                          Colors.red,
+                    SizedBox(
+                      width: double.infinity,
+                      height: 55,
+                      child: AnimatedBuilder(
+                        animation: loginVM,
+                        builder: (context, _) {
+                          return ElevatedButton.icon(
+                            icon: const Icon(Icons.login),
+                            label: loginVM.loading
+                                ? const Text("Cargando...")
+                                : const Text(
+                                    "Iniciar Sesión",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Colors.blueAccent,
+                              foregroundColor:
+                                  Colors.white,
+                              shape:
+                                  RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(
+                                        15),
+                              ),
+                            ),
+                            onPressed:
+                                loginVM.loading
+                                    ? null
+                                    : _iniciarSesion,
+                          );
+                        },
+                      ),
                     ),
-                  );
-                },
-              ),
 
-              const SizedBox(
-                height: 10,
-              ),
+                    const SizedBox(height: 15),
 
-              SizedBox(
-                width: 200,
-                height: 50,
-                child:
-                    AnimatedBuilder(
-                  animation:
-                      loginVM,
-                  builder:
-                      (context, _) {
-
-                    return ElevatedButton(
-
+                    TextButton.icon(
                       onPressed:
-                          loginVM.loading
-                              ? null
-                              : _iniciarSesion,
-
-                      child:
-                          loginVM.loading
-                              ? const CircularProgressIndicator(
-                                  color:
-                                      Colors.white,
-                                )
-                              : const Text(
-                                  'Iniciar Sesión',
-                                ),
-                    );
-                  },
+                          _mostrarRecuperarPassword,
+                      icon: const Icon(
+                        Icons.lock_reset,
+                      ),
+                      label: const Text(
+                        "Olvidé mi contraseña",
+                      ),
+                    ),
+                  ],
                 ),
               ),
-
-              const SizedBox(
-                height: 10,
-              ),
-
-              TextButton(
-                onPressed:
-                  _mostrarRecuperarPassword,
-                  child: const Text(
-                    "Olvidé mi contraseña",
-                    ),
-                  ),
-            ],
+            ),
           ),
         ),
       ),
-    );  
+    ),
+  ); 
   }
 }

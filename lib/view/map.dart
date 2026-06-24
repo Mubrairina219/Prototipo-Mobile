@@ -74,6 +74,8 @@ class _MapScreenState extends State<MapScreen> {
 
   bool aceptaEliminacion = false;
 
+  String? _paradaSeleccionadaKey;
+
   // =====================================
   // INICIALIZACIÓN
   // =====================================
@@ -625,211 +627,427 @@ void _confirmarEliminarCuenta() {
 }
 
   // =====================================
-  // SIDEBAR DE PERFIL
-  // =====================================
+// SIDEBAR DE PERFIL
+// =====================================
 
-  Widget _buildDrawer() {
+Widget _buildDrawer() {
 
-    return Drawer(
+  return Drawer(
 
-      child: SafeArea(
+    child: SafeArea(
 
-        child: Column(
+      child: Column(
 
-          children: [
+        children: [
 
-            // Encabezado usuario
+          // =====================================
+          // CABECERA DEL USUARIO
+          // =====================================
 
-            Container(
+          Container(
 
-              width: double.infinity,
-              padding: const EdgeInsets.all(20),
-              color: Colors.blue,
-              child: Column(
-                children: [
-                  const CircleAvatar(
-                    radius: 40,
-                    backgroundColor: Colors.white,
-                    child: Icon(
-                      Icons.person,
-                      size: 45,
-                      color: Colors.blue,
-                    ),
-                  ),
+            width: double.infinity,
 
-                  const SizedBox(
-                    height: 10,
-                  ),
-                
-                  Text(
-                    widget.nombre,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight:
-                        FontWeight.bold,
-                    ),
-                  ),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 25,
+            ),
 
-                  const SizedBox(
-                    height: 5,
-                  ),
+            decoration: const BoxDecoration(
 
-                  Text(
-                    widget.email,
-                    style: const TextStyle(
-                      color: Colors.white70,
-                    ),
-                  ),
+              gradient: LinearGradient(
 
-                  const SizedBox(
-                    height: 15,
-                  ),
+                colors: [
 
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 15,
-                      vertical: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius:
-                          BorderRadius.circular(
-                        20,
-                      ),
-                    ),
+                  Color(0xFF1565C0),
 
-                    child: Text(
-                      _planActual.toUpperCase(),
-                      style: const TextStyle(
-                        fontWeight:
-                            FontWeight.bold,
-                      ),
-                    ),
-                  ),
+                  Color(0xFF42A5F5),
                 ],
+
+                begin: Alignment.topLeft,
+
+                end: Alignment.bottomRight,
               ),
             ),
 
-            const SizedBox(
-              height: 10,
+            child: Column(
+
+              children: [
+
+                Container(
+
+                  decoration: BoxDecoration(
+
+                    shape: BoxShape.circle,
+
+                    boxShadow: [
+
+                      BoxShadow(
+
+                        color: Colors.black26,
+
+                        blurRadius: 10,
+                      ),
+                    ],
+                  ),
+
+                  child: const CircleAvatar(
+
+                    radius: 45,
+
+                    backgroundColor: Colors.white,
+
+                    child: Icon(
+
+                      Icons.person,
+
+                      size: 50,
+
+                      color: Colors.blueAccent,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 15,
+                ),
+
+                Text(
+
+                  widget.nombre,
+
+                  textAlign: TextAlign.center,
+
+                  style: const TextStyle(
+
+                    color: Colors.white,
+
+                    fontSize: 22,
+
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 5,
+                ),
+
+                Text(
+
+                  widget.email,
+
+                  textAlign: TextAlign.center,
+
+                  style: const TextStyle(
+
+                    color: Colors.white70,
+
+                    fontSize: 14,
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 15,
+                ),
+
+                Container(
+
+                  padding:
+                      const EdgeInsets.symmetric(
+
+                    horizontal: 20,
+
+                    vertical: 8,
+                  ),
+
+                  decoration: BoxDecoration(
+
+                    color: Colors.white,
+
+                    borderRadius:
+                        BorderRadius.circular(
+                      30,
+                    ),
+                  ),
+
+                  child: Text(
+
+                    _planActual.toUpperCase(),
+
+                    style: TextStyle(
+
+                      color:
+                          _planActual ==
+                                  "premium"
+                              ? Colors.orange
+                              : Colors.blueAccent,
+
+                      fontWeight:
+                          FontWeight.bold,
+
+                      letterSpacing: 1,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(
+            height: 15,
+          ),
+
+          // =====================================
+          // PLAN ACTUAL
+          // =====================================
+
+          Card(
+
+            margin:
+                const EdgeInsets.symmetric(
+
+              horizontal: 15,
+
+              vertical: 5,
             ),
 
-            ListTile(
-              leading: const Icon(
+            elevation: 2,
+
+            shape: RoundedRectangleBorder(
+
+              borderRadius:
+                  BorderRadius.circular(
+                15,
+              ),
+            ),
+
+            child: ListTile(
+
+              leading: Icon(
+
                 Icons.workspace_premium,
+
+                color:
+                    _planActual ==
+                            "premium"
+                        ? Colors.amber
+                        : Colors.blueAccent,
               ),
+
               title: const Text(
                 "Plan actual",
               ),
+
               subtitle: Text(
-                 _planActual,
+                _planActual.toUpperCase(),
               ),
             ),
+          ),
 
-            const Divider(),
+          const Divider(),
 
-Padding(
+          // =====================================
+          // BOTÓN PREMIUM
+          // =====================================
 
-  padding:
-      const EdgeInsets.all(16),
+          Padding(
 
-  child: SizedBox(
+            padding:
+                const EdgeInsets.all(16),
 
-    width: double.infinity,
+            child: SizedBox(
 
-    child:
-        _planActual == "free"
+              width: double.infinity,
 
-            ? ElevatedButton.icon(
+              child:
+                  _planActual == "free"
 
-                onPressed:
-                    _mostrarDialogPremium,
+                      ? ElevatedButton.icon(
 
-                icon: const Icon(
-                  Icons.workspace_premium,
-                ),
+                          style:
+                              ElevatedButton.styleFrom(
 
-                label: const Text(
-                  "Cambiar a Premium",
-                ),
-              )
+                            backgroundColor:
+                                Colors.amber,
 
-            : ElevatedButton.icon(
+                            foregroundColor:
+                                Colors.white,
 
-                onPressed:
-                    _mostrarCancelarPlan,
+                            padding:
+                                const EdgeInsets.symmetric(
+                              vertical: 15,
+                            ),
 
-                style:
-                    ElevatedButton.styleFrom(
-                  backgroundColor:
-                      Colors.red,
-                  foregroundColor:
-                      Colors.white,
-                ),
+                            shape:
+                                RoundedRectangleBorder(
 
-                icon: const Icon(
-                  Icons.cancel,
-                ),
+                              borderRadius:
+                                  BorderRadius.circular(
+                                15,
+                              ),
+                            ),
+                          ),
 
-                label: const Text(
-                  "Cancelar Premium",
-                ),
-              ),
-  ),
-),
+                          onPressed:
+                              _mostrarDialogPremium,
 
-ListTile(
+                          icon: const Icon(
+                            Icons.workspace_premium,
+                          ),
 
-  leading: const Icon(
-    Icons.delete_forever,
-    color: Colors.red,
-  ),
+                          label: const Text(
+                            "Cambiar a Premium",
+                          ),
+                        )
 
-  title: const Text(
+                      : ElevatedButton.icon(
 
-    "Eliminar cuenta",
+                          style:
+                              ElevatedButton.styleFrom(
 
-    style: TextStyle(
-      color: Colors.red,
-    ),
-  ),
+                            backgroundColor:
+                                Colors.red,
 
-  onTap: () {
+                            foregroundColor:
+                                Colors.white,
 
-    Navigator.pop(context);
+                            padding:
+                                const EdgeInsets.symmetric(
+                              vertical: 15,
+                            ),
 
-    _confirmarEliminarCuenta();
-  },
-),
+                            shape:
+                                RoundedRectangleBorder(
 
-const Divider(),
+                              borderRadius:
+                                  BorderRadius.circular(
+                                15,
+                              ),
+                            ),
+                          ),
 
-            const Spacer(),
+                          onPressed:
+                              _mostrarCancelarPlan,
 
-            ListTile(
+                          icon: const Icon(
+                            Icons.cancel,
+                          ),
+
+                          label: const Text(
+                            "Cancelar Premium",
+                          ),
+                        ),
+            ),
+          ),
+
+          // =====================================
+          // ELIMINAR CUENTA
+          // =====================================
+
+          Card(
+
+            margin:
+                const EdgeInsets.symmetric(
+
+              horizontal: 15,
+
+              vertical: 5,
+            ),
+
+            child: ListTile(
+
               leading: const Icon(
-                Icons.logout,
+
+                Icons.delete_forever,
+
                 color: Colors.red,
               ),
+
               title: const Text(
-                "Cerrar sesión",
+
+                "Eliminar cuenta",
+
                 style: TextStyle(
+
                   color: Colors.red,
+
+                  fontWeight:
+                      FontWeight.bold,
                 ),
               ),
+
               onTap: () {
+
+                Navigator.pop(context);
+
+                _confirmarEliminarCuenta();
+              },
+            ),
+          ),
+
+          const Divider(),
+
+          const Spacer(),
+
+          // =====================================
+          // CERRAR SESIÓN
+          // =====================================
+
+          Container(
+
+            margin:
+                const EdgeInsets.all(15),
+
+            width: double.infinity,
+
+            child: ElevatedButton.icon(
+
+              style:
+                  ElevatedButton.styleFrom(
+
+                backgroundColor:
+                    Colors.red,
+
+                foregroundColor:
+                    Colors.white,
+
+                padding:
+                    const EdgeInsets.symmetric(
+                  vertical: 15,
+                ),
+
+                shape:
+                    RoundedRectangleBorder(
+
+                  borderRadius:
+                      BorderRadius.circular(
+                    15,
+                  ),
+                ),
+              ),
+
+              onPressed: () {
+
                 Navigator.of(context)
                     .popUntil(
                   (route) => route.isFirst,
                 );
               },
+
+              icon: const Icon(
+                Icons.logout,
+              ),
+
+              label: const Text(
+                "Cerrar sesión",
+              ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 
   // =====================================
   // CARGA INICIAL DEL MAPA
@@ -920,134 +1138,156 @@ Future<void> _mostrarInfoParada(
   Paradas parada,
 ) async {
 
-  loadingVM.mostrar(
-    "Calculando ruta...",
-  );
+  setState(() {
+    _paradaSeleccionadaKey =
+        "${parada.latitud},${parada.longitud}";
+  });
+
+  loadingVM.mostrar("Calculando ruta...");
 
   await _viewModel.obtenerRutaHastaParada(
-    LatLng(
-      parada.latitud,
-      parada.longitud,
-    ),
+    LatLng(parada.latitud, parada.longitud),
   );
 
-  loadingVM.actualizarMensaje(
-    "Cargando rutas...",
-  );
+  loadingVM.actualizarMensaje("Cargando rutas...");
 
   final rutas =
-      await _viewModel
-          .obtenerRutasDeParada(
-    parada.id,
-  );
+      await _viewModel.obtenerRutasDeParada(parada.id);
 
   loadingVM.ocultar();
 
   if (!mounted) return;
 
   showDialog(
+  context: context,
+  builder: (_) => AlertDialog(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(18),
+    ),
+    contentPadding: const EdgeInsets.all(16),
 
-    context: context,
+    title: Row(
+      children: [
+        const Icon(
+          Icons.location_on,
+          color: Colors.redAccent,
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            parada.nombre,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
+    ),
 
-    builder: (_) => AlertDialog(
-
-      title: Text(
-        parada.nombre,
-      ),
-
-      content: rutas.isEmpty
-
-          ? const Text(
+    content: rutas.isEmpty
+        ? const Padding(
+            padding: EdgeInsets.all(20),
+            child: Text(
               "Sin rutas disponibles",
-            )
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.grey),
+            ),
+          )
+        : SizedBox(
+            width: double.maxFinite,
+            child: ListView.separated(
+              shrinkWrap: true,
+              itemCount: rutas.length,
+              separatorBuilder: (_, __) =>
+                  const SizedBox(height: 8),
+              itemBuilder: (context, index) {
+                final r = rutas[index];
 
-          : SizedBox(
+                return Card(
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
 
-              width: double.maxFinite,
-
-              child: ListView(
-
-                shrinkWrap: true,
-
-                children:
-                    rutas.map<Widget>((r) {
-
-                  return ListTile(
-
-                    leading: const Icon(
-                      Icons.directions_bus,
+                    leading: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.blueAccent.withOpacity(0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.directions_bus,
+                        color: Colors.blueAccent,
+                      ),
                     ),
 
                     title: Text(
-                      "- ${r['ruta']}",
+                      r['ruta'].toString(),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
 
                     subtitle: Text(
                       "${r['empresa']} • ${r['matricula']}",
+                      style: const TextStyle(fontSize: 12),
+                    ),
+
+                    trailing: const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 14,
                     ),
 
                     onTap: () async {
+                      Navigator.pop(context);
 
-                      Navigator.pop(
-                        context,
-                      );
-
-                      loadingVM.mostrar(
-                        "Cargando ruta...",
-                      );
+                      loadingVM.mostrar("Cargando ruta...");
 
                       final idRuta =
-                          int.parse(
-                        r['id']
-                            .toString(),
-                      );
+                          int.parse(r['id'].toString());
 
-                      await _viewModel
-                          .obtenerRutaPorId(
+                      await _viewModel.obtenerRutaPorId(
                         idRuta,
-                        r['ruta']
-                            .toString(),
+                        r['ruta'].toString(),
                       );
 
-                      loadingVM
-                          .actualizarMensaje(
+                      loadingVM.actualizarMensaje(
                         "Cargando horarios...",
                       );
 
-                      await _viewModel
-                          .obtenerHorariosRuta(
+                      await _viewModel.obtenerHorariosRuta(
                         idRuta,
                       );
 
                       loadingVM.ocultar();
                     },
-                  );
-                }).toList(),
-              ),
+                  ),
+                );
+              },
             ),
-
-      actions: [
-
-        TextButton(
-
-          onPressed: () {
-
-            loadingVM.ocultar();
-
-            Navigator.pop(
-              context,
-            );
-
-            setState(() {});
-          },
-
-          child: const Text(
-            "Cerrar",
           ),
-        ),
-      ],
-    ),
-  );
+
+    actions: [
+      TextButton.icon(
+        onPressed: () {
+          loadingVM.ocultar();
+          Navigator.pop(context);
+
+          setState(() {
+            _paradaSeleccionadaKey = null;
+          });
+        },
+        icon: const Icon(Icons.close),
+        label: const Text("Cerrar"),
+      ),
+    ],
+  ),
+);
 }
 
 // =====================================
@@ -1055,9 +1295,12 @@ Future<void> _mostrarInfoParada(
 // =====================================
 
 @override
+@override
 Widget build(BuildContext context) {
 
-  // Pantalla de carga inicial
+  // =====================================
+  // PANTALLA DE CARGA
+  // =====================================
 
   if (!_mapaListo) {
 
@@ -1103,8 +1346,6 @@ Widget build(BuildContext context) {
 
   return Scaffold(
 
-    // Sidebar del usuario
-
     drawer: _buildDrawer(),
 
     // =====================================
@@ -1113,43 +1354,106 @@ Widget build(BuildContext context) {
 
     appBar: AppBar(
 
-  automaticallyImplyLeading: false,
+      automaticallyImplyLeading: false,
 
-  title: const Text(
-    "Mapa",
-  ),
+      elevation: 0,
 
-  centerTitle: true,
+      foregroundColor: Colors.white,
 
-  backgroundColor: Colors.blue,
+      flexibleSpace: Container(
 
-  foregroundColor: Colors.white,
+        decoration: const BoxDecoration(
 
-  actions: [
+          gradient: LinearGradient(
 
-    Builder(
-      builder: (context) {
-        return IconButton(
+            colors: [
 
-          onPressed: () {
-            Scaffold.of(context).openDrawer();
-          },
+              Color(0xFF1565C0),
 
-          icon: const CircleAvatar(
-            radius: 16,
-            backgroundColor: Colors.white,
+              Color(0xFF42A5F5),
+            ],
 
-            child: Icon(
-              Icons.person,
-              color: Colors.blue,
-              size: 20,
+            begin: Alignment.topLeft,
+
+            end: Alignment.bottomRight,
+          ),
+        ),
+      ),
+
+      title: const Row(
+
+        mainAxisSize: MainAxisSize.min,
+
+        children: [
+
+          Icon(
+            Icons.directions_bus,
+          ),
+
+          SizedBox(
+            width: 10,
+          ),
+
+          Text(
+
+            "Transporte Rivera",
+
+            style: TextStyle(
+
+              fontWeight:
+                  FontWeight.bold,
+
+              letterSpacing: 0.5,
             ),
           ),
-        );
-      },
+        ],
+      ),
+
+      centerTitle: true,
+
+      actions: [
+
+        Builder(
+
+          builder: (context) {
+
+            return Padding(
+
+              padding:
+                  const EdgeInsets.only(
+                right: 10,
+              ),
+
+              child: IconButton(
+
+                onPressed: () {
+
+                  Scaffold.of(context)
+                      .openDrawer();
+                },
+
+                icon:
+                    const CircleAvatar(
+
+                  radius: 18,
+
+                  backgroundColor:
+                      Colors.white,
+
+                  child: Icon(
+
+                    Icons.person,
+
+                    color:
+                        Colors.blueAccent,
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ],
     ),
-  ],
-),
 
     // =====================================
     // CONTENIDO
@@ -1174,14 +1478,19 @@ Widget build(BuildContext context) {
 
   children: [
 
+    // =====================================
+    // MAPA BASE
+    // =====================================
+
     TileLayer(
+
       urlTemplate:
           'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
     ),
 
-    // ==========================
-    // RUTA
-    // ==========================
+    // =====================================
+    // RUTA SELECCIONADA
+    // =====================================
 
     PolylineLayer(
 
@@ -1194,7 +1503,7 @@ Widget build(BuildContext context) {
             points:
                 _viewModel.puntosRuta,
 
-            strokeWidth: 4,
+            strokeWidth: 5,
 
             color:
                 _viewModel.colorRuta,
@@ -1202,343 +1511,337 @@ Widget build(BuildContext context) {
       ],
     ),
 
+// =====================================
+// MARCADORES
+// =====================================
+
+MarkerLayer(
+  markers: [
     // ==========================
-    // MARCADORES
+    // USUARIO
     // ==========================
+    if (position != null)
+      Marker(
+        point: position,
+        width: 40,
+        height: 40,
+        child: const Icon(
+          Icons.my_location,
+          color: Colors.red,
+          size: 28,
+        ),
+      ),
 
-    MarkerLayer(
-
-      markers: [
-
-        if (position != null)
-
-          Marker(
-
-            point: position,
-
-            width: 50,
-
-            height: 50,
-
-            child: const Icon(
-              Icons.person_pin_circle,
-              color: Colors.red,
-              size: 40,
-            ),
-          ),
-
-        ..._viewModel.paradas.map(
-          (p) => Marker(
-
-            point: LatLng(
-              p.latitud,
-              p.longitud,
-            ),
-
-            width: 40,
-
-            height: 40,
-
-            child: GestureDetector(
-
-              onTap: () =>
-                  _mostrarInfoParada(p),
-
-              child: const Icon(
-                Icons.directions_bus,
-                color: Colors.purple,
-              ),
-            ),
+    // ==========================
+    // PARADAS (SIN CAJA)
+    // ==========================
+    ..._viewModel.paradas.map(
+      (p) => Marker(
+        point: LatLng(p.latitud, p.longitud),
+        width: 35,
+        height: 35,
+        child: GestureDetector(
+          onTap: () => _mostrarInfoParada(p),
+          child: const Icon(
+            Icons.directions_bus,
+            color: Colors.blueAccent,
+            size: 28,
           ),
         ),
-
-        ...horariosPorParada.entries
-            .map((entry) {
-
-          final coords =
-              entry.key.split(",");
-
-          final lat =
-              double.parse(coords[0]);
-
-          final lng =
-              double.parse(coords[1]);
-
-          final lista =
-              entry.value;
-
-          return Marker(
-
-            point: LatLng(
-              lat,
-              lng,
-            ),
-
-            width: 90,
-
-            height: 90,
-
-            child: GestureDetector(
-
-              onTap: () {
-
-                showDialog(
-
-                  context: context,
-
-                  builder: (_) =>
-                      AlertDialog(
-
-                    title:
-                        const Text(
-                      "Horarios",
-                    ),
-
-                    content:
-                        SizedBox(
-
-                      width: 200,
-
-                      child: ListView(
-
-                        shrinkWrap: true,
-
-                        children:
-                            lista.map((h) {
-
-                          return ListTile(
-
-                            title: Text(
-
-                              h['hora']
-                                  .toString()
-                                  .substring(
-                                    0,
-                                    5,
-                                  ),
-                            ),
-
-                            subtitle: Text(
-                              h['nombre'],
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                  ),
-                );
-              },
-
-              child: Column(
-
-                mainAxisSize:
-                    MainAxisSize.min,
-
-                children: [
-
-                  Container(
-
-                    padding:
-                        const EdgeInsets.symmetric(
-                      horizontal: 6,
-                      vertical: 2,
-                    ),
-
-                    decoration:
-                        BoxDecoration(
-
-                      color: Colors.white,
-
-                      borderRadius:
-                          BorderRadius.circular(
-                        12,
-                      ),
-
-                      boxShadow: const [
-
-                        BoxShadow(
-                          color:
-                              Colors.black26,
-                          blurRadius: 4,
-                        ),
-                      ],
-                    ),
-
-                    child: Text(
-
-                      "${lista.length} horarios",
-
-                      style:
-                          const TextStyle(
-
-                        fontSize: 10,
-
-                        fontWeight:
-                            FontWeight.bold,
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(
-                    height: 2,
-                  ),
-
-                  Icon(
-
-                    Icons.directions_bus,
-
-                    color:
-                        _viewModel.colorRuta,
-
-                    size: 30,
-                  ),
-                ],
-              ),
-            ),
-          );
-        }),
-      ],
+      ),
     ),
+
+    // ==========================
+    // HORARIOS (RELOJ CON BADGE)
+    // ==========================
+    ...horariosPorParada.entries.map((entry) {
+      final coords = entry.key.split(",");
+      final lat = double.parse(coords[0]);
+      final lng = double.parse(coords[1]);
+      final lista = entry.value;
+
+      return Marker(
+        point: LatLng(lat, lng),
+        width: 60,
+        height: 60,
+        child: GestureDetector(
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (_) => AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                title: const Row(
+                  children: [
+                    Icon(Icons.schedule, color: Colors.blueAccent),
+                    SizedBox(width: 10),
+                    Text("Horarios"),
+                  ],
+                ),
+                content: SizedBox(
+                  width: 250,
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: lista.map((h) {
+                      return ListTile(
+                        dense: true,
+                        leading: const Icon(
+                          Icons.access_time,
+                          color: Colors.blueAccent,
+                          size: 18,
+                        ),
+                        title: Text(
+                          h['hora'].toString().substring(0, 5),
+                        ),
+                        subtitle: Text(h['nombre'].toString()),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+            );
+          },
+
+          // 🔥 BADGE DE RELOJ (VISIBLE PERO LIMPIO)
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.directions_bus,
+                color: Colors.deepPurple,
+                size: 24,
+              ),
+              const SizedBox(height: 3),
+
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 6,
+                  vertical: 2,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 3,
+                    ),
+                  ],
+                ),
+                child: const Icon(
+                  Icons.access_time,
+                  size: 14,
+                  color: Colors.black87,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }),
+  ],
+)
   ],
 ),
-        // =====================================
+// =====================================
 // BOTONES FLOTANTES
 // =====================================
 
 Positioned(
 
-  right: 10,
+  right: 15,
 
   bottom: 20,
 
-  child: Column(
+  child: Container(
 
-    children: [
+    padding: const EdgeInsets.all(10),
 
-      // ==========================
-      // IA
-      // ==========================
+    decoration: BoxDecoration(
 
-      FloatingActionButton(
+      color: Colors.white,
 
-        heroTag: "ia",
+      borderRadius:
+          BorderRadius.circular(25),
 
-        backgroundColor:
-            _planActual ==
-                    "premium"
-                ? Colors.white
-                : Colors.black87,
+      boxShadow: const [
 
-        elevation: 8,
+        BoxShadow(
 
-        onPressed:
-            _planActual ==
-                    "premium"
+          color: Colors.black26,
 
-                ? () {
+          blurRadius: 10,
 
-                    ScaffoldMessenger.of(
-                            context)
-                        .showSnackBar(
-
-                      const SnackBar(
-
-                        content: Text(
-                          "Asistente IA activado",
-                        ),
-                      ),
-                    );
-                  }
-
-                : null,
-
-        child: Icon(
-
-          Icons.auto_awesome,
-
-          color:
-              _planActual ==
-                      "premium"
-                  ? Colors.black
-                  : Colors.white,
+          offset: Offset(0, 3),
         ),
-      ),
+      ],
+    ),
 
-      const SizedBox(
-        height: 10,
-      ),
+    child: Column(
 
-      // ==========================
-      // WATCH
-      // ==========================
+      mainAxisSize: MainAxisSize.min,
 
-      FloatingActionButton(
+      children: [
 
-        heroTag: "watch",
+        // ==========================
+        // IA PREMIUM
+        // ==========================
 
-        backgroundColor:
-            Colors.black,
+        Tooltip(
 
-        onPressed: () {
+          message:
+              _planActual == "premium"
+                  ? "Asistente IA"
+                  : "Disponible solo para Premium",
 
-          Navigator.push(
+          child: FloatingActionButton.small(
 
-            context,
+            heroTag: "ia",
 
-            MaterialPageRoute(
+            elevation: 0,
 
-              builder: (_) =>
-                  const WatchScreen(),
+            backgroundColor:
+                _planActual == "premium"
+                    ? Colors.amber
+                    : Colors.grey.shade400,
+
+            onPressed:
+                _planActual == "premium"
+
+                    ? () {
+
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(
+
+                          const SnackBar(
+
+                            content: Text(
+                              "Asistente IA activado",
+                            ),
+                          ),
+                        );
+                      }
+
+                    : null,
+
+            child: const Icon(
+
+              Icons.auto_awesome,
+
+              color: Colors.white,
             ),
-          );
-        },
-
-        child: const Icon(
-
-          Icons.watch,
-
-          color: Colors.white,
+          ),
         ),
-      ),
 
-      const SizedBox(
-        height: 10,
-      ),
-
-      // ==========================
-      // ZOOM +
-      // ==========================
-
-      FloatingActionButton(
-
-        heroTag: "zoom_in",
-
-        onPressed: _zoomIn,
-
-        child: const Icon(
-          Icons.zoom_in,
+        const SizedBox(
+          height: 10,
         ),
-      ),
 
-      const SizedBox(
-        height: 10,
-      ),
+        // ==========================
+        // WATCH
+        // ==========================
 
-      // ==========================
-      // ZOOM -
-      // ==========================
+        Tooltip(
 
-      FloatingActionButton(
+          message: "Modo Smartwatch",
 
-        heroTag: "zoom_out",
+          child: FloatingActionButton.small(
 
-        onPressed: _zoomOut,
+            heroTag: "watch",
 
-        child: const Icon(
-          Icons.zoom_out,
+            elevation: 0,
+
+            backgroundColor:
+                Colors.blueAccent,
+
+            onPressed: () {
+
+              Navigator.push(
+
+                context,
+
+                MaterialPageRoute(
+
+                  builder: (_) =>
+                      const WatchScreen(),
+                ),
+              );
+            },
+
+            child: const Icon(
+
+              Icons.watch,
+
+              color: Colors.white,
+            ),
+          ),
         ),
-      ),
-    ],
+
+        const Divider(),
+
+        // ==========================
+        // ZOOM +
+        // ==========================
+
+        Tooltip(
+
+          message: "Acercar",
+
+          child: FloatingActionButton.small(
+
+            heroTag: "zoom_in",
+
+            elevation: 0,
+
+            backgroundColor:
+                Colors.white,
+
+            foregroundColor:
+                Colors.blueAccent,
+
+            onPressed: _zoomIn,
+
+            child: const Icon(
+              Icons.zoom_in,
+            ),
+          ),
+        ),
+
+        const SizedBox(
+          height: 10,
+        ),
+
+        // ==========================
+        // ZOOM -
+        // ==========================
+
+        Tooltip(
+
+          message: "Alejar",
+
+          child: FloatingActionButton.small(
+
+            heroTag: "zoom_out",
+
+            elevation: 0,
+
+            backgroundColor:
+                Colors.white,
+
+            foregroundColor:
+                Colors.blueAccent,
+
+            onPressed: _zoomOut,
+
+            child: const Icon(
+              Icons.zoom_out,
+            ),
+          ),
+        ),
+      ],
+    ),
   ),
 ),
       ],

@@ -266,451 +266,398 @@ class _RegisterScreenState
   }
 
   @override
-  Widget build(BuildContext context) {
-
-    return Scaffold(
-
-      appBar: AppBar(
-
-        title: const Text(
-          'Registro',
-        ),
-
-        centerTitle: true,
-
-        backgroundColor:
-            Colors.blueAccent,
-
-        foregroundColor:
-            Colors.white,
-
-        leading: IconButton(
-
-          icon: const Icon(
-            Icons.arrow_back,
-          ),
-
-          onPressed: () {
-
-            Navigator.pop(
-              context,
-            );
-          },
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: Container(
+      width: double.infinity,
+      height: double.infinity,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Color(0xFF1565C0),
+            Color(0xFF42A5F5),
+          ],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
         ),
       ),
-
-      body: SingleChildScrollView(
-
-        child: Padding(
-
-          padding:
-              const EdgeInsets.all(20),
-
+      child: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
           child: Center(
-
             child: ConstrainedBox(
-
-              constraints:
-                  const BoxConstraints(
+              constraints: const BoxConstraints(
                 maxWidth: 550,
               ),
+              child: Card(
+                elevation: 10,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(25),
+                  child: Column(
+                    crossAxisAlignment:
+                        CrossAxisAlignment.stretch,
+                    children: [
 
-              child: Column(
+                      // ================= VOLVER =================
 
-                crossAxisAlignment:
-                    CrossAxisAlignment
-                        .stretch,
-
-                children: [
-                  // ================== NOMBRE ==================
-
-                  TextField(
-                    controller: _nameController,
-                    decoration: InputDecoration(
-                      labelText: 'Nombre',
-                      prefixIcon: const Icon(
-                        Icons.person,
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.arrow_back,
+                            color: Colors.blueAccent,
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
                       ),
-                      border: OutlineInputBorder(
-                        borderRadius:
-                          BorderRadius.circular(12),
+
+                      // ================= ICONO =================
+
+                      const Icon(
+                        Icons.person_add_alt_1,
+                        size: 70,
+                        color: Colors.blueAccent,
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      const Text(
+                        "Crear Cuenta",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blueAccent,
+                        ),
+                      ),
+
+                      const SizedBox(height: 5),
+
+                      const Text(
+                        "Completa tus datos para registrarte",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.grey,
+                        ),
+                      ),
+
+                      const SizedBox(height: 30),
+
+                      // ================= NOMBRE =================
+
+                      TextField(
+                        controller: _nameController,
+                        decoration: InputDecoration(
+                          labelText: 'Nombre',
+                          prefixIcon:
+                              const Icon(Icons.person),
+                          filled: true,
+                          fillColor:
+                              Colors.grey.shade50,
+                          border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.circular(
+                                    15),
                           ),
                         ),
                       ),
 
-                  const SizedBox(
-                    height: 20,
-                  ),
+                      const SizedBox(height: 20),
 
-// ================== EMAIL ==================
+                      // ================= EMAIL =================
 
-TextField(
-
-  controller: _emailController,
-
-  keyboardType:
-      TextInputType.emailAddress,
-
-  decoration: InputDecoration(
-
-    labelText:
-        'Correo electrónico',
-
-    prefixIcon: const Icon(
-      Icons.email,
-    ),
-
-    border: OutlineInputBorder(
-
-      borderRadius:
-          BorderRadius.circular(12),
-    ),
-  ),
-),
-
-const SizedBox(
-  height: 20,
-),
-
-// ================== CONTRASEÑA ==================
-
-TextField(
-
-  controller:
-      _passwordController,
-
-  obscureText:
-      _obscurePassword,
-
-  decoration: InputDecoration(
-
-    labelText:
-        'Contraseña',
-
-    prefixIcon:
-        const Icon(
-      Icons.lock,
-    ),
-
-    border:
-        OutlineInputBorder(
-
-      borderRadius:
-          BorderRadius.circular(12),
-    ),
-
-    suffixIcon:
-        IconButton(
-
-      icon: Icon(
-
-        _obscurePassword
-
-            ? Icons.visibility
-
-            : Icons.visibility_off,
-      ),
-
-      onPressed: () {
-
-        setState(() {
-
-          _obscurePassword =
-              !_obscurePassword;
-        });
-      },
-    ),
-  ),
-),
-
-const SizedBox(
-  height: 25,
-),
-
-// ================== TÉRMINOS ==================
-
-Card(
-
-  elevation: 4,
-
-  shape:
-      RoundedRectangleBorder(
-
-    borderRadius:
-        BorderRadius.circular(12),
-  ),
-
-  child: Padding(
-
-    padding:
-        const EdgeInsets.all(12),
-
-    child: Row(
-
-      crossAxisAlignment:
-          CrossAxisAlignment.start,
-
-      children: [
-
-        Checkbox(
-
-          value: acceptedTerms,
-
-          onChanged: (value) {
-
-            setState(() {
-
-              acceptedTerms =
-                  value ?? false;
-            });
-          },
-        ),
-
-        Expanded(
-
-          child: Padding(
-
-            padding:
-                const EdgeInsets.only(
-              top: 12,
-            ),
-
-            child: Wrap(
-
-              children: [
-
-                const Text(
-
-                  "He leído y acepto los ",
-                ),
-
-                GestureDetector(
-
-                  onTap: () {
-
-                    Navigator.push(
-
-                      context,
-
-                      MaterialPageRoute(
-
-                        builder: (_) =>
-                            const TermsAndPrivacyScreen(),
+                      TextField(
+                        controller: _emailController,
+                        keyboardType:
+                            TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          labelText:
+                              'Correo electrónico',
+                          prefixIcon:
+                              const Icon(Icons.email),
+                          filled: true,
+                          fillColor:
+                              Colors.grey.shade50,
+                          border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.circular(
+                                    15),
+                          ),
+                        ),
                       ),
-                    );
-                  },
 
-                  child: const Text(
+                      const SizedBox(height: 20),
 
-                    "Términos de Uso y Política de Privacidad",
+                      // ================= PASSWORD =================
 
-                    style: TextStyle(
+                      TextField(
+                        controller:
+                            _passwordController,
+                        obscureText:
+                            _obscurePassword,
+                        decoration: InputDecoration(
+                          labelText: 'Contraseña',
+                          prefixIcon:
+                              const Icon(Icons.lock),
+                          filled: true,
+                          fillColor:
+                              Colors.grey.shade50,
+                          border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.circular(
+                                    15),
+                          ),
+                          suffixIcon:
+                              IconButton(
+                            icon: Icon(
+                              _obscurePassword
+                                  ? Icons.visibility
+                                  : Icons
+                                      .visibility_off,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _obscurePassword =
+                                    !_obscurePassword;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
 
-                      color: Colors.blue,
+                      const SizedBox(height: 25),
 
-                      decoration:
-                          TextDecoration
-                              .underline,
+                      // ================= TÉRMINOS =================
 
-                      fontWeight:
-                          FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    ),
+                      Card(
+                        elevation: 6,
+                        shape:
+                            RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(
+                                  20),
+                        ),
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.all(
+                                  15),
+                          child: Row(
+                            crossAxisAlignment:
+                                CrossAxisAlignment
+                                    .start,
+                            children: [
+                              Checkbox(
+                                value:
+                                    acceptedTerms,
+                                onChanged: (value) {
+                                  setState(() {
+                                    acceptedTerms =
+                                        value ??
+                                            false;
+                                  });
+                                },
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets
+                                          .only(
+                                    top: 12,
+                                  ),
+                                  child: Wrap(
+                                    children: [
+                                      const Text(
+                                        "He leído y acepto los ",
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder:
+                                                  (_) =>
+                                                      const TermsAndPrivacyScreen(),
+                                            ),
+                                          );
+                                        },
+                                        child:
+                                            const Text(
+                                          "Términos de Uso y Política de Privacidad",
+                                          style:
+                                              TextStyle(
+                                            color:
+                                                Colors
+                                                    .blue,
+                                            fontWeight:
+                                                FontWeight
+                                                    .bold,
+                                            decoration:
+                                                TextDecoration
+                                                    .underline,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 25),
+
+                      // ================= PLANES =================
+
+                      Card(
+  elevation: 6,
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(20),
   ),
-),
-
-const SizedBox(
-  height: 25,
-),
-
-// ================== PLANES ==================
-
-Card(
-
-  elevation: 4,
-
-  shape:
-      RoundedRectangleBorder(
-
-    borderRadius:
-        BorderRadius.circular(12),
-  ),
-
   child: Padding(
-
-    padding:
-        const EdgeInsets.all(16),
-
+    padding: const EdgeInsets.all(16),
     child: Column(
-
-      crossAxisAlignment:
-          CrossAxisAlignment.start,
-
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
 
-        const Text(
-
-          "Selecciona tu plan",
-
-          style: TextStyle(
-
-            fontSize: 18,
-
-            fontWeight:
-                FontWeight.bold,
-          ),
+        const Row(
+          children: [
+            Icon(
+              Icons.workspace_premium,
+              color: Colors.amber,
+            ),
+            SizedBox(width: 10),
+            Text(
+              "Selecciona tu plan",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
 
-        const SizedBox(
-          height: 10,
-        ),
+        const SizedBox(height: 15),
 
         RadioListTile<String>(
-
           value: "free",
-
-          groupValue:
-              selectedPlan,
-
+          groupValue: selectedPlan,
+          activeColor: Colors.blueAccent,
           onChanged: (value) {
-
             setState(() {
-
-              selectedPlan =
-                  value!;
+              selectedPlan = value!;
             });
           },
-
           title: const Text(
             "Plan Free",
           ),
-
           subtitle: const Text(
-
             "Acceso a mapas, rutas y paradas",
           ),
         ),
 
         RadioListTile<String>(
-
           value: "premium",
-
-          groupValue:
-              selectedPlan,
-
+          groupValue: selectedPlan,
+          activeColor: Colors.blueAccent,
           onChanged: (value) {
-
             setState(() {
-
-              selectedPlan =
-                  value!;
+              selectedPlan = value!;
             });
           },
-
           title: const Text(
             "Plan Premium",
           ),
-
           subtitle: const Text(
-
             "Incluye asistente IA",
           ),
         ),
 
-        if (selectedPlan ==
-            "premium") ...[
+        if (selectedPlan == "premium") ...[
 
           const Divider(),
 
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 15),
 
-          const Row(
+          Container(
+            padding: const EdgeInsets.all(15),
+            decoration: BoxDecoration(
+              color: Colors.amber.shade50,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: const Column(
+              children: [
 
-            children: [
-
-              Icon(
-                Icons.auto_awesome,
-              ),
-
-              SizedBox(width: 10),
-
-              Expanded(
-
-                child: Text(
-
-                  "Consultas inteligentes mediante IA",
+                Row(
+                  children: [
+                    Icon(Icons.auto_awesome),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        "Consultas inteligentes mediante IA",
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
 
-          SizedBox(height: 10),
+                SizedBox(height: 10),
 
-          Row(
-
-            children: const [
-
-              Icon(
-                Icons.route,
-              ),
-
-              SizedBox(width: 10),
-
-              Expanded(
-
-                child: Text(
-
-                  "Búsqueda de rutas usando lenguaje natural",
+                Row(
+                  children: [
+                    Icon(Icons.route),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        "Búsqueda de rutas usando lenguaje natural",
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
 
-          SizedBox(height: 10),
+                SizedBox(height: 10),
 
-          Row(
-
-            children: const [
-
-              Icon(
-                Icons.info_outline,
-              ),
-
-              SizedBox(width: 10),
-
-              Expanded(
-
-                child: Text(
-
-                  "Información avanzada del transporte",
+                Row(
+                  children: [
+                    Icon(Icons.info_outline),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        "Información avanzada del transporte",
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
 
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
 
-          Center(
-
-            child: Text(
-
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(
+              vertical: 15,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.orange.shade50,
+              borderRadius: BorderRadius.circular(15),
+              border: Border.all(
+                color: Colors.orange,
+              ),
+            ),
+            child: const Text(
               "\$4.99 USD / mes",
-
+              textAlign: TextAlign.center,
               style: TextStyle(
-
                 fontSize: 22,
-
-                fontWeight:
-                    FontWeight.bold,
+                fontWeight: FontWeight.bold,
+                color: Colors.orange,
               ),
             ),
           ),
@@ -720,211 +667,176 @@ Card(
   ),
 ),
 
-const SizedBox(
-  height: 25,
-),
+                      const SizedBox(height: 25),
 
-// ================== UBICACIÓN ==================
+                      // ================= UBICACIÓN =================
 
-Card(
-
-  elevation: 4,
-
-  shape:
-      RoundedRectangleBorder(
-
-    borderRadius:
-        BorderRadius.circular(12),
+                      Card(
+  elevation: 6,
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(20),
   ),
-
   child: Padding(
+    padding: const EdgeInsets.all(16),
+    child: Container(
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        color: Colors.blue.shade50,
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Column(
+        children: [
 
-    padding:
-        const EdgeInsets.all(16),
-
-    child: Column(
-
-      children: [
-
-        const Icon(
-
-          Icons.location_on,
-
-          size: 40,
-
-          color: Colors.blue,
-        ),
-
-        const SizedBox(
-          height: 10,
-        ),
-
-        const Text(
-
-          "Permitir acceso a tu ubicación",
-
-          style: TextStyle(
-
-            fontSize: 18,
-
-            fontWeight:
-                FontWeight.bold,
-          ),
-        ),
-
-        const SizedBox(
-          height: 8,
-        ),
-
-        const Text(
-
-          "Esto permitirá mostrar rutas y paradas cercanas.",
-
-          textAlign:
-              TextAlign.center,
-        ),
-
-        const SizedBox(
-          height: 15,
-        ),
-
-        CheckboxListTile(
-
-          value:
-              locationAccepted,
-
-          title: const Text(
-
-            "Acepto compartir mi ubicación",
+          const Icon(
+            Icons.location_on,
+            size: 60,
+            color: Colors.blueAccent,
           ),
 
-          controlAffinity:
-              ListTileControlAffinity
-                  .leading,
+          const SizedBox(height: 10),
 
-          onChanged: (value) {
+          const Text(
+            "Permitir acceso a tu ubicación",
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
 
-            setState(() {
+          const SizedBox(height: 10),
 
-              locationAccepted =
-                  value ?? false;
-            });
+          const Text(
+            "Esto permitirá mostrar rutas y paradas cercanas.",
+            textAlign: TextAlign.center,
+          ),
 
-            if (locationAccepted) {
+          const SizedBox(height: 15),
 
-              _getLocation();
-
-            } else {
-
+          CheckboxListTile(
+            value: locationAccepted,
+            activeColor: Colors.blueAccent,
+            controlAffinity:
+                ListTileControlAffinity.leading,
+            title: const Text(
+              "Acepto compartir mi ubicación",
+            ),
+            secondary: const Icon(
+              Icons.my_location,
+              color: Colors.blueAccent,
+            ),
+            onChanged: (value) {
               setState(() {
-
-                userPosition =
-                    null;
-
-                locationStatus =
-                    "Ubicación no obtenida";
+                locationAccepted =
+                    value ?? false;
               });
-            }
-          },
-        ),
 
-        if (locationLoading)
-
-          const Padding(
-
-            padding:
-                EdgeInsets.all(8),
-
-            child:
-                CircularProgressIndicator(),
+              if (locationAccepted) {
+                _getLocation();
+              } else {
+                setState(() {
+                  userPosition = null;
+                  locationStatus =
+                      "Ubicación no obtenida";
+                });
+              }
+            },
           ),
 
-        if (!locationLoading)
-
-          Padding(
-
-            padding:
-                const EdgeInsets.only(
-              top: 8,
+          if (locationLoading)
+            const Padding(
+              padding: EdgeInsets.all(15),
+              child:
+                  CircularProgressIndicator(),
             ),
 
-            child: Text(
-
-              locationStatus,
-
-              textAlign:
-                  TextAlign.center,
-
-              style: TextStyle(
-
-                color: userPosition !=
-                        null
-
-                    ? Colors.green
-
-                    : Colors.grey[700],
+          if (!locationLoading)
+            Padding(
+              padding:
+                  const EdgeInsets.only(
+                top: 8,
+              ),
+              child: Container(
+                width: double.infinity,
+                padding:
+                    const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: userPosition != null
+                      ? Colors.green.shade50
+                      : Colors.grey.shade100,
+                  borderRadius:
+                      BorderRadius.circular(
+                          10),
+                ),
+                child: Text(
+                  locationStatus,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight:
+                        FontWeight.w500,
+                    color: userPosition != null
+                        ? Colors.green
+                        : Colors.grey[700],
+                  ),
+                ),
               ),
             ),
-          ),
-      ],
+        ],
+      ),
     ),
   ),
 ),
 
-const SizedBox(
-  height: 30,
-),
+                      const SizedBox(height: 30),
 
-// ================== BOTÓN ==================
+                      // ================= BOTÓN =================
 
-SizedBox(
-
-  height: 55,
-
-  child: ElevatedButton(
-
-    onPressed:
-        acceptedTerms
-
-            ? _registrarUsuario
-
-            : null,
-
-    style:
-        ElevatedButton.styleFrom(
-
-      backgroundColor:
-          Colors.blueAccent,
-
-      foregroundColor:
-          Colors.white,
-
-      shape:
-          RoundedRectangleBorder(
-
-        borderRadius:
-            BorderRadius.circular(
-          12,
-        ),
-      ),
-    ),
-
-    child: const Text(
-
-      'Registrarse',
-
-      style: TextStyle(
-        fontSize: 16,
-      ),
-    ),
-  ),
-),
-                ],
+                      SizedBox(
+                        height: 55,
+                        child:
+                            ElevatedButton.icon(
+                          icon: const Icon(
+                            Icons.person_add,
+                          ),
+                          label: const Text(
+                            'Registrarse',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight:
+                                  FontWeight
+                                      .bold,
+                            ),
+                          ),
+                          style:
+                              ElevatedButton
+                                  .styleFrom(
+                            backgroundColor:
+                                Colors
+                                    .blueAccent,
+                            foregroundColor:
+                                Colors.white,
+                            shape:
+                                RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius
+                                      .circular(
+                                          15),
+                            ),
+                          ),
+                          onPressed:
+                              acceptedTerms
+                                  ? _registrarUsuario
+                                  : null,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 }
